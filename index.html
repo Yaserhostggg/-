@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>شخصيات مشهورة</title>
+    <style>
+        /* بعض التنسيقات البسيطة */
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl; /* لجعل النص من اليمين إلى اليسار */
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .personality {
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .personality h3 {
+            margin-top: 0;
+        }
+        .personality p {
+            margin: 5px 0;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+<h1>الشخصيات المشهورة</h1>
+
+<div id="personalities-list"></div>
+
+<script>
+    // جلب البيانات من ملف PHP الذي يعيد بيانات JSON
+    fetch('get_personalities.php')
+        .then(response => response.json())  // تحويل الاستجابة إلى JSON
+        .then(data => {
+            const list = document.getElementById('personalities-list');
+
+            // المرور على الشخصيات وإضافتها إلى الصفحة
+            data.forEach(person => {
+                const div = document.createElement('div');
+                div.classList.add('personality');
+                div.innerHTML = `
+                    <h3>${person.name}</h3>
+                    <p>العمر: ${person.age}</p>
+                    <p>${person.description}</p>
+                `;
+                list.appendChild(div);
+            });
+        })
+        .catch(error => console.error('Error fetching data:', error));
+</script>
+
+</body>
+</html>
